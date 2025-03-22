@@ -31,14 +31,10 @@ public class Bullet : MonoBehaviour
         {
             EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
 
-            if (enemy != null) // 防止 `null` 访问
+            if (enemy != null) 
             {
                 enemy.TakeDamage(damage); // 造成伤害
                 Destroy(gameObject); // 子弹命中后销毁
-            }
-            else
-            {
-                Debug.LogError("EnemyHealth 组件未找到，检查敌人是否正确添加了该组件！");
             }
         }
     }

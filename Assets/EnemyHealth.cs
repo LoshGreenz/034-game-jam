@@ -5,40 +5,49 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 6; // 最大血量
-    private int currentHealth;
+    public int health; // 当前血量（等于初始血量）
+
     public GameObject healthBarPrefab; // 关联血条预制体
     private HealthBar healthBar;
 
     void Start()
-{
-    currentHealth = maxHealth;
-
-    // **找到 Enemy 物体的子对象中的 HealthBar 组件**
-    healthBar = GetComponentInChildren<HealthBar>();
-
-    if (healthBar != null)
     {
-        healthBar.SetHealth(currentHealth);
-    }
-    else
-    {
-        Debug.LogError("HealthBar 组件未找到！请确保 HealthBar 作为 Enemy 的子对象存在！");
-    }
-}
+        healthBar = GetComponentInChildren<HealthBar>();
 
+        if (healthBar == null)
+        {
+            Debug.LogError("HealthBar 组件未找到！请确保 HealthBar 作为 Enemy 的子对象存在！");
+            return;
+        }
+
+        healthBar.SetHealth(health); // 显示初始血量
+    }
+
+    public void Heal(int amount)
+    {
+        health += amount;
+        Debug.Log("加血成功，当前血量：" + health);
+
+        if (health > maxHealth) // 超出最大血量就死亡
+        {
+            Debug.Log("敌人血量溢出，死亡！");
+            Destroy(gameObject);
+        }
+
+        healthBar.SetHealth(health);
+    }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        health -= damage;
+        Debug.Log("敌人受到伤害，当前血量：" + health);
 
-        if (healthBar != null)
+        if (health <= 0)
         {
-            healthBar.SetHealth(currentHealth); // 更新血条
+            Debug.Log("敌人死亡！");
+            Destroy(gameObject);
         }
 
-        if (currentHealth <= 0)
-        {
-            Destroy(gameObject); // 怪物死亡
-        }
+        healthBar.SetHealth(health);
     }
 }
