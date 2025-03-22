@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    public GameObject circlePrefab; // 圆形（3 滴血）
-    public GameObject squarePrefab; // 方形（2 滴血）
-    public GameObject trianglePrefab; // 三角形（1 滴血）
+    public GameObject circlePrefab;  // 代表 3 滴血
+    public GameObject squarePrefab;  // 代表 2 滴血
+    public GameObject trianglePrefab; // 代表 1 滴血
 
     private List<GameObject> healthIcons = new List<GameObject>(); // 存放血条图形
 
     public void SetHealth(int health)
     {
-        ClearHealthBar(); // 清空旧的血条
+        ClearHealthBar(); // 先清空血条
 
         int remainingHealth = health;
+        float totalWidth = 0; // 计算血条的总宽度
 
         // 先放圆形
         while (remainingHealth >= 3)
@@ -35,6 +36,15 @@ public class HealthBar : MonoBehaviour
         {
             AddHealthIcon(trianglePrefab);
             remainingHealth -= 1;
+        }
+
+        // **计算血条的整体宽度**
+        totalWidth = (healthIcons.Count - 1) * 0.5f;
+
+        // **整体上移，并让血条居中**
+        foreach (GameObject icon in healthIcons)
+        {
+            icon.transform.localPosition += new Vector3(-totalWidth / 2, 0.7f, 0); 
         }
     }
 

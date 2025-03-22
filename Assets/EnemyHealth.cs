@@ -10,8 +10,8 @@ public class EnemyHealth : MonoBehaviour
     private HealthBar healthBar;
 
     void Start()
-    {
-        currentHealth = maxHealth;
+{
+    currentHealth = maxHealth;
 
     // **找到 Enemy 物体的子对象中的 HealthBar 组件**
     healthBar = GetComponentInChildren<HealthBar>();
@@ -24,7 +24,8 @@ public class EnemyHealth : MonoBehaviour
     {
         Debug.LogError("HealthBar 组件未找到！请确保 HealthBar 作为 Enemy 的子对象存在！");
     }
-    }
+}
+
 
     public void TakeDamage(int damage)
     {
