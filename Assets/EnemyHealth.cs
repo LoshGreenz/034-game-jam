@@ -10,6 +10,8 @@ public class EnemyHealth : MonoBehaviour
     public GameObject healthBarPrefab; // 关联血条预制体
     private HealthBar healthBar;
 
+    public bool immuneToNormalDamage = false; // **是否免疫普通攻击（可在 Inspector 里调整）**
+
     void Start()
     {
         // 确保初始血量不会超过最大血量
@@ -42,16 +44,22 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (immuneToNormalDamage)
+        {
+            Debug.Log("敌人免疫普通攻击，无伤害！");
+            return;
+        }
+
         health -= damage;
         Debug.Log("敌人受到伤害，当前血量：" + health);
+
+        healthBar.SetHealth(health); // **先更新血条**
 
         if (health <= 0)
         {
             Debug.Log("敌人死亡！");
             Destroy(gameObject);
         }
-
-        healthBar.SetHealth(health);
     }
 
     IEnumerator OverhealDeath()

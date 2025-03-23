@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 9;
@@ -15,17 +15,16 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void TakeDamage(int damage)
-{
-    currentHealth -= damage;
-    healthBar.SetHealth(currentHealth);
-
-    if (currentHealth <= 0)
     {
-        Debug.Log("玩家死亡 — 重新加载场景");
-        // 重新加载当前活动场景
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            Debug.Log("玩家死亡");
+            Destroy(gameObject);
+        }
+        healthBar.SetHealth(currentHealth);
     }
-}
+
     public void Heal(int amount)
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
