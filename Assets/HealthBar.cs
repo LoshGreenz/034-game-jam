@@ -44,7 +44,7 @@ public class HealthBar : MonoBehaviour
         // **整体上移，并让血条居中**
         foreach (GameObject icon in healthIcons)
         {
-            icon.transform.localPosition += new Vector3(-totalWidth / 2, 0.7f, 0); 
+            icon.transform.localPosition += new Vector3(-totalWidth / 2, 0.9f, 0); 
         }
     }
 

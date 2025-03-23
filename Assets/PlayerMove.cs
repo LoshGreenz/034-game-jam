@@ -7,6 +7,9 @@ public class PlayerMove : MonoBehaviour
     public float moveSpeed = 5f; // 角色移动速度
     private Rigidbody2D rb;
     private Vector2 movement;
+    private Vector2 extraVelocity = Vector2.zero; // 额外的速度，用于反弹
+    private float extraVelocityDamping = 3f; // 反弹速度的衰减率
+
     private float currentVelocity; // 旋转速度
     public float rotationSmoothTime = 0.1f; // 控制旋转的平滑度
 
@@ -20,16 +23,19 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         // 获取 WASD 按键输入
-        movement.x = Input.GetAxisRaw("Horizontal"); // A/D 或 ←/→ 控制 x 轴
-        movement.y = Input.GetAxisRaw("Vertical");   // W/S 或 ↑/↓ 控制 y 轴
-        movement = movement.normalized; // 归一化，防止斜方向速度过快
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        movement = movement.normalized;
     }
 
     void FixedUpdate()
     {
-        // 使用 Rigidbody2D 移动
-        rb.velocity = movement * moveSpeed;
-        
+        // **玩家基础速度 + 额外速度**
+        rb.velocity = movement * moveSpeed + extraVelocity;
+
+        // **逐渐减少额外的反弹速度，使其平滑衰减**
+        extraVelocity = Vector2.Lerp(extraVelocity, Vector2.zero, extraVelocityDamping * Time.fixedDeltaTime);
+
         // 让玩家朝向鼠标
         RotateTowardsMouse();
     }
@@ -37,18 +43,21 @@ public class PlayerMove : MonoBehaviour
     void RotateTowardsMouse()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f; 
+        mousePos.z = 0f;
 
         Vector3 direction = (mousePos - transform.position).normalized;
 
         if (direction.magnitude > 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            
-            // 使用 SmoothDampAngle 进行平滑旋转
             float smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.z, targetAngle, ref currentVelocity, rotationSmoothTime);
-            
             transform.rotation = Quaternion.Euler(0f, 0f, smoothAngle);
         }
+    }
+
+    // **🚀 供外部调用的反弹函数**
+    public void ApplyKnockback(Vector2 force)
+    {
+        extraVelocity = force; // 赋予额外速度
     }
 }
