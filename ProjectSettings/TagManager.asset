@@ -16,8 +16,8 @@ TagManager:
   - UI
   - Player
   - Bullet
-  - 
-  - 
+  - Wall
+  - EnemyBullet
   - 
   - 
   - 
@@ -43,4 +43,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: New Layer 1
+    uniqueID: 3644706329
+    locked: 0
+  - name: Wall
+    uniqueID: 646905655
+    locked: 0
+  - name: UI
+    uniqueID: 1485412019
     locked: 0

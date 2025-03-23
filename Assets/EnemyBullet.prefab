@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4428033506778065519, guid: 8894077444928814fa7dd5921f57cb6c, type: 3}
       propertyPath: m_BodyType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5649697448496772716, guid: 8894077444928814fa7dd5921f57cb6c, type: 3}
       propertyPath: m_Name
@@ -100,3 +100,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   damage: 1
+  lifeTime: 5
