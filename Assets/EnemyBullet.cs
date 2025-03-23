@@ -17,7 +17,7 @@ public class EnemyBullet : MonoBehaviour
             return;
         }
 
-        rb.velocity = transform.right * speed; // 🚀 让子弹朝向当前方向飞行
+        transform.right = rb.velocity.normalized;// 🚀 让子弹朝向当前方向飞行
 
         // **在 `lifeTime` 秒后自动销毁子弹**
         Destroy(gameObject, lifeTime);

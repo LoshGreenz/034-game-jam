@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet2 : MonoBehaviour
 {
     public float lifeTime = 5f; // 子弹存活时间
     public float bounceForce = 1f; // 反弹力度
@@ -28,27 +28,17 @@ public class Bullet : MonoBehaviour
         //     Vector2 reflectDirection = Vector2.Reflect(rb.velocity.normalized, collision.contacts[0].normal);
         //     rb.velocity = reflectDirection * rb.velocity.magnitude * bounceForce;
         // }
-        if (collision.gameObject.CompareTag("Enemy")) // 碰到敌人时
+        
+        if (collision.gameObject.CompareTag("player")) // 碰到敌人时
         {
-            EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+            
 
-            if (enemy != null) 
+             PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
             {
-                enemy.TakeDamage(damage); // 造成伤害
-                 // 子弹命中后销毁
-            }
-
-        }
-        if (collision.gameObject.CompareTag("boss1")) // 碰到敌人时
-        {
-            if (GameObject.FindGameObjectWithTag("boss1_center")!=null){
-            BossController boss1 = GameObject.FindGameObjectWithTag("boss1_center").gameObject.GetComponent<BossController>();
-
-            if (boss1 != null) 
-            {
-                boss1.health-=damage; // 造成伤害
-                 // 子弹命中后销毁
-            }
+                playerHealth.TakeDamage(damage);
+                Debug.Log("玩家受到了 " + damage + " 点伤害！");
             }
 
         }
